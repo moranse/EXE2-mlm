@@ -1,0 +1,92 @@
+body,
+html {
+  font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol";
+  height: 100%;
+  width: 100%;
+  background-color: #5FFBF1;
+  text-align: left;
+  font-size: 20px;
+  line-height: 1.7;
+  margin: 0px;
+}
+
+h1 {
+  float: inline-start;
+  text-align: center;
+  color: #755bb4;
+  font-size: 50px;
+}
+
+#signIn {
+    background-color: #D16BA5;
+    position: absolute;
+    top: 130px;
+    right: 350px;
+    float: left;
+    width: 450px;
+    height: 330px;
+    border-radius: 25px;
+    padding: 17px;
+    color: #755bb4;
+}
+input{
+    background-color:rgb(241, 234, 234);
+    top: 130px;
+    right: 360px;
+    width: 430px;
+    height: 70px;
+    border-radius: 15px;
+    border: solid 1px #5FFBF1;
+    font-size: 30px;
+    color: #755bb4;
+}
+
+.button {
+  background-color: rgb(241, 234, 234);
+  border-radius: 5px;
+  border: solid 2px #5FFBF1;
+  color: #5FFBF1;
+  width: 430px;
+  height: 70px;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: "Segoe UI";
+}
+
+.button:hover {
+  cursor: pointer;
+  }
+
+.button1 {
+  background-color:#755bb4;
+  border-radius: 5px;
+  border: solid 2px #5FFBF1;
+  color: #5FFBF1;
+  width: 79px;
+  height: 70px;
+  font-weight: bold;
+  font-size: 15px;
+  font-family: "Segoe UI";
+}  
+.button1:hover {
+  cursor: pointer;
+}
+
+a{
+  cursor: pointer;
+}
+a:link {
+  text-decoration: none;
+  color: #D16BA5;
+}
+table{
+  border: 1px solid #755bb4;
+  text-align: center;
+}
+td{
+  width: 150px;
+  border: 1px solid #755bb4;
+}
+th{
+  border: 1px solid #755bb4;
+}
