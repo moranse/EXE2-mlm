@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js';
 import { getFirestore, addDoc, getDocs, collection,doc,deleteDoc} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,signOut} from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAEEngjGkam9ZXbqvVqusp4cchg1QobVcI",
@@ -24,6 +24,7 @@ let email = document.querySelector("#email");
 let userName = document.querySelector("#userName");
 let pass = document.querySelector("#password");
 let p = document.getElementById("p1");
+//const userCredential="";//saveing the ID of the loged in user
 
 function check() {//checking for no empty fields. call the signUp function.
   //תפיסה מחדש של המשתנים לאחר טעינת הדף -מניעת תפיסת שדות ריקים
@@ -50,8 +51,7 @@ function check() {//checking for no empty fields. call the signUp function.
   }
 }
 
-//creat the collection
-let userCollection = collection(db, "Users");
+let userCollection = collection(db, "Users");//creat the collection
 console.log(userCollection);
 
 async function signUP() {//creat new user and signup to table page
@@ -66,8 +66,11 @@ async function signUP() {//creat new user and signup to table page
   });
   async function sign(){
     console.log("in sign");
-    createUserWithEmailAndPassword(auth,email,pass)
+    email = document.querySelector("#email").value;
+    pass = document.querySelector("#password").value;
+    await createUserWithEmailAndPassword(auth,email,pass)
     console.log("רישום הצליח ");
+    window.location.href="user.html";
   }//במידה והסיסמא לא שונה בין המשתמשים, פיירבייס חוסם את יצירת המשתמש במנגנון הזהויות
   sign();
   console.log(auth);
@@ -76,34 +79,43 @@ async function signUP() {//creat new user and signup to table page
   console.log(email);
   console.log(userName);
   console.log(pass);
-  
   console.log("user created successfully");
-  window.location.href="user.html";
 }
+
+let user1 ="";
 
 async function signIN(){ //this function sign in execting user
   let userName1 = document.querySelector("#userName").value;
   let pass1 = document.querySelector("#password").value;
-  console.log("user name is: "+userName1 +" password is: "+ pass1);
-  async function getData() {//להביא את הערכים שהוזנו מהטבלה
-    let data = await getDocs(userCollection); console.log(userCollection+ " "+data);
+  if (userName1!=="" ||pass1!==""){
+  async function getData() {//להביא את הערכים שהוזנו מהטבלה במסד הנתונים
+    let data = await getDocs(userCollection); 
+    console.log(userCollection+ " "+data);
     data.forEach((doc)=>{//מציאת המשתמש מכל הרשומות בטבלה
       console.log(doc.data())
       if(doc.data().userName==userName1&&doc.data().password==pass1){
-        console.log(doc.id);
+        console.log("user name is: "+userName1 +" password is: "+ pass1);
+        console.log("the id of logedin user (from users table) is: "+doc.id);
         //email=getDocs(doc(db, "Users", doc.id)).email;//הבאת המייל של המשתמש הספציפי כדי לחברו
         let email1=doc.data().email;
         console.log(email1);
         signInWithEmailAndPassword(auth, email1, pass1)
         .then((userCredential) => {
           console.log(userCredential);
-          let user = userCredential.user;
-          console.log("Signed in user:", user);
+          user1 = auth.currentUser;
+          // sessionStorage.setItem("email", user1.email);
+          // sessionStorage.setItem("userName",user1.userName);
+          console.log("Signed in users email: "+ user1.email);
           window.location.href="user.html";
         }) 
+      }else{
+        p.innerHTML="user not found"
       }
     });
   } getData();
+}else{
+  p.innerHTML="set username and password to login"
+}
 }
 
 async function fillTable() {//creat user table and fill it
@@ -153,6 +165,14 @@ function goToSign(){//for go back to the signup page
   window.location.href="signUp.html"
 }
 
+function signOUT(){
+  console.log("in signOut");
+  // sessionStorage.removeItem("email");
+  // sessionStorage.removeItem("userName");
+  signOut(auth);
+  window.location.href="index.html";
+}
+
 if (document.getElementById("signupBtn")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
   document.getElementById("signupBtn").addEventListener('click', check);
 }
@@ -160,8 +180,21 @@ if(document.getElementById("signinBtn")){//בודק האם האלמנט נוצר
 document.getElementById("signinBtn").addEventListener('click',signIN);
 }
 if(document.getElementById("userPage")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
+  //window.addEventListener("load",onAuthStateChanged);
   window.addEventListener("load", fillTable);
 }
 if(document.getElementById("back")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
   document.getElementById("back").addEventListener("click", goToSign);
 }
+if(document.getElementById("signOut")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
+  document.getElementById("signOut").addEventListener("click", signOUT);
+}
+// function onAuthStateChanged(user1){
+//   if (user1) {
+//     // User is signed in, load user.html
+//     window.location.href = "user.html";
+//   } else {
+//     // No user is signed in, redirect to login page
+//     window.location.href = "index.html";
+//   }
+// }
