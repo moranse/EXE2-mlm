@@ -108,9 +108,9 @@ async function signIN(){ //this function sign in execting user
           console.log("Signed in users email: "+ user1.email);
           window.location.href="user.html";
         }) 
-      }else{
-        p.innerHTML="user not found"
-      }
+      } //else{
+      //   p.innerHTML="user not found"
+      // }
     });
   } getData();
 }else{
@@ -180,8 +180,8 @@ if(document.getElementById("signinBtn")){//בודק האם האלמנט נוצר
 document.getElementById("signinBtn").addEventListener('click',signIN);
 }
 if(document.getElementById("userPage")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
-  //window.addEventListener("load",onAuthStateChanged);
-  window.addEventListener("load", fillTable);
+  window.addEventListener("load",fillTable);//for using by session, change to onAuthStateChanged()
+  //window.addEventListener("load", fillTable);
 }
 if(document.getElementById("back")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
   document.getElementById("back").addEventListener("click", goToSign);
@@ -189,8 +189,28 @@ if(document.getElementById("back")){//בודק האם האלמנט נוצר ור
 if(document.getElementById("signOut")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
   document.getElementById("signOut").addEventListener("click", signOUT);
 }
-// function onAuthStateChanged(user1){
-//   if (user1) {
+
+// function onAuthStateChanged() {//not working by users sign in cradetional
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
+// const auth = getAuth(app);
+//   if (!auth.currentUser) {
+//     //const uid = user.uid;
+//    //if(document.getElementById("userPage")){//בודק האם האלמנט נוצר ורק  אז מוסיף לו אירוע
+//       //window.addEventListener("load",onAuthStateChanged);
+//       //document.getElementById("userPage").window.addEventListener("load", fillTable);
+//       fillTable();
+//       console.log(auth.currentUser);
+//     //}
+//   } else {
+//     // User is signed out
+//     signOut(auth.currentUser);
+//     window.location.href="index.html";
+//   }
+// }
+
+// function onAuthStateChanged(x){
+//   if (x) {
 //     // User is signed in, load user.html
 //     window.location.href = "user.html";
 //   } else {
